@@ -38,9 +38,7 @@ const ReadNFT = ({ nftAddress, nftToken, barterAddress }) => {
     console.log("Json Data", jsonData);
 
     try {
-      let dataIpfs = await fetch(jsonData, {
-        mode: "no-cors",
-      });
+      let dataIpfs = await fetch(jsonData);
       console.log("DataIPFS", dataIpfs);
       let dataipfsJson = await dataIpfs.json();
       console.log("DataIPFSJson", dataipfsJson);
@@ -56,7 +54,7 @@ const ReadNFT = ({ nftAddress, nftToken, barterAddress }) => {
   useEffect(() => {
     getNFTDetails();
     fetchImage();
-  }, []);
+  });
 
   return (
     <div>
