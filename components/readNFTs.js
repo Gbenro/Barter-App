@@ -30,26 +30,26 @@ const ReadNFT = ({ nftAddress, nftToken, barterAddress }) => {
     }
   };
 
-  const getMetaFromURI = async () => {
-    try {
-      console.log("URI", uri);
-      let response = await fetch(`${link}${uri.slice(7)}`, {
-        mode: "no-cors",
-      });
-      let responseJson = await response.json();
-      let nftImage = responseJson.image;
-      console.log("Json response", responseJson);
-      let ImageResponse = await fetch(`${link}${nftImage.slice(7)}`);
-      let ImageRes = ImageRes.image;
-      console.log("Image Link", ImageResponse.url);
-      console.log("Image Link2", ImageRes);
-      setImage(ImageResponse.url);
-      console.log(image);
-      // return ImageResponse;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //   const getMetaFromURI = async () => {
+  //     try {
+  //       console.log("URI", uri);
+  //       let response = await fetch(`${link}${uri.slice(7)}`, {
+  //         mode: "no-cors",
+  //       });
+  //       let responseJson = await response.json();
+  //       let nftImage = responseJson.image;
+  //       console.log("Json response", responseJson);
+  //       let ImageResponse = await fetch(`${link}${nftImage.slice(7)}`);
+  //       let ImageRes = ImageRes.image;
+  //       console.log("Image Link", ImageResponse.url);
+  //       console.log("Image Link2", ImageRes);
+  //       setImage(ImageResponse.url);
+  //       console.log(image);
+  //       // return ImageResponse;
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
   const fetchImage = async (data) => {
     console.log("Data", data);
@@ -60,12 +60,16 @@ const ReadNFT = ({ nftAddress, nftToken, barterAddress }) => {
       console.log("Response:", response);
       let responseJson = await response.json();
       console.log("ResponseJson", responseJson);
+      let nftImage = responseJson.image;
+      let ImageResponse = await fetch(`${link}${nftImage.slice(7)}`);
+      let ImageRes = ImageResponse.url;
+      setImage(ImageRes);
     } catch (error) {}
     return image;
   };
 
   useEffect(() => {
-    getMetaFromURI();
+    // getMetaFromURI();
     getNFTDetails();
   });
 

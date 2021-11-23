@@ -10,7 +10,7 @@ class BarterShow extends Component {
     const barter = Barter(props.query.address);
 
     const summary = await barter.methods.getBarterSummary().call();
-    console.log("show getInitprops Summarry:", summary);
+
     return {
       barter: barter,
       barterAddress: summary[0],
