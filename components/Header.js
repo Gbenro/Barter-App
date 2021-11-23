@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, Menu } from "semantic-ui-react";
 import { Link } from "../routes";
 
@@ -20,30 +20,29 @@ const Header = () => {
         method: "net_version",
       });
       if (networkId == 4) {
-        setInfo((prev) => ({
-          ...prev,
+        setInfo({
           connected: true,
 
           text: accounts[0],
-        }));
+        });
       } else {
-        setInfo((prev) => ({
-          ...prev,
+        setInfo({
+          ...initailInfo,
           text: "Connect Rinkeby Test Network",
-        }));
+        });
       }
     } else {
-      setInfo((prev) => ({
-        ...prev,
+      setInfo({
+        ...initailInfo,
         text: "Please Install metamask",
-      }));
+      });
     }
   };
 
   useEffect(() => {
     init();
     initOnChange();
-  }, [init]);
+  });
 
   const truncate = (str) => {
     const len = str.length;
