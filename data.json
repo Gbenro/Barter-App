@@ -1,0 +1,43 @@
+{
+  "dna": "31518553a4f98c82ada6d803ce109f12cf8a9900",
+  "name": "#29",
+  "description": "This is the description of your NFT project, remember to replace this",
+  "image": "https://soccerdogeclubnft.s3.us-west-1.amazonaws.com/imgs/sdc-img-2.png",
+  "edition": 29,
+  "date": 1635546604468,
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "5"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Brown Fur"
+    },
+    {
+      "trait_type": "Marks",
+      "value": "None"
+    },
+    {
+      "trait_type": "Necklace",
+      "value": "None"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "RoundEyeGlass"
+    },
+    {
+      "trait_type": "Clothes",
+      "value": "Stripe Shirt"
+    },
+    {
+      "trait_type": "Head",
+      "value": "Cornrolls"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Lollipop"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}

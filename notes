@@ -1,0 +1,50 @@
+import React, { Component } from "react";
+import { Card, Image } from "semantic-ui-react";
+import data from "../data.json";
+import Barter from "../ethereum/Barter";
+
+class ReadNFT extends Component {
+  static async getInitialProps({ nftAddress, nftToken }) {
+    console.log("contract Addrss", props.query.address);
+    console.log("ReadNFT nftadress", nftAddress);
+    console.log("ReadNFT nftToken", nftToken);
+    const barter = Barter(props.query.address);
+    const NFTdetails = await barter.methods.getNFTdetails(
+      this.props.nftAddress,
+      this.props.nftToken
+    );
+    console.log(" ReadNFT NFTDetails ", NFTdetails);
+    return {
+      nftName: NFTdetails[0],
+      nftSymbol: NFTdetails[1],
+      nftUri: NFTdetails[2],
+    };
+  }
+
+  renderNFT() {
+    const { nftName, nftSymbol, nftUri } = this.props;
+    const items = [
+      {
+        Image: nftUri,
+        Header: nftName,
+        Meta: nftSymbol,
+      },
+    ];
+
+    console.log(" ReadNFT details", items.Image, nftSymbol, nftUri);
+    return (
+      <Card>
+        <Image src={nftUri} />
+        <Card.Content>
+          <Card.Header>{nftName}</Card.Header>
+          <Card.Meta>{nftSymbol}</Card.Meta>
+        </Card.Content>
+      </Card>
+    );
+  }
+  render() {
+    return <div>{this.renderNFT()}</div>;
+  }
+}
+
+export default ReadNFT;
