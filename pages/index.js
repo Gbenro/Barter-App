@@ -14,7 +14,7 @@ class BarterIndex extends Component {
   renderBarters() {
     const items = [...this.props.barters]
       .reverse()
-      .slice(Math.max(this.props.barters.length - 10, 0))
+      //.slice(Math.max(this.props.barters.length - 10, 0))
       .map((address) => {
         return {
           header: address,

@@ -16,6 +16,7 @@ const ReadNFT = ({ nftAddress, nftToken, barterAddress }) => {
 
   const getNFTDetails = () => {
     const barter = Barter(BarterAddress);
+    console.log("Barter Loadeding");
     try {
       barter.methods
         .getNFTdetails(NftAddress, NftToken)
@@ -24,61 +25,44 @@ const ReadNFT = ({ nftAddress, nftToken, barterAddress }) => {
           setUri(res[2]);
           setHeader(res[0]);
           setMeta(res[1]);
+          console.log("Barter Loaded success w/ URI", uri);
         });
     } catch (error) {
       console.log(error);
     }
   };
 
-  //   const getMetaFromURI = async () => {
-  //     try {
-  //       console.log("URI", uri);
-  //       let response = await fetch(`${link}${uri.slice(7)}`, {
-  //         mode: "no-cors",
-  //       });
-  //       let responseJson = await response.json();
-  //       let nftImage = responseJson.image;
-  //       console.log("Json response", responseJson);
-  //       let ImageResponse = await fetch(`${link}${nftImage.slice(7)}`);
-  //       let ImageRes = ImageRes.image;
-  //       console.log("Image Link", ImageResponse.url);
-  //       console.log("Image Link2", ImageRes);
-  //       setImage(ImageResponse.url);
-  //       console.log(image);
-  //       // return ImageResponse;
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+  const fetchImage = async () => {
+    console.log("Data", uri);
+    let jsonData = ` ${link}${uri.slice(7)}`;
+    console.log("Json Data", jsonData);
 
-  const fetchImage = async (data) => {
-    console.log("Data", data);
     try {
-      let response = await fetch(data, {
+      let dataIpfs = await fetch(jsonData, {
         mode: "no-cors",
       });
-      console.log("Response:", response);
-      let responseJson = await response.json();
-      console.log("ResponseJson", responseJson);
-      let nftImage = responseJson.image;
-      let ImageResponse = await fetch(`${link}${nftImage.slice(7)}`);
-      let ImageRes = ImageResponse.url;
-      setImage(ImageRes);
+      console.log("DataIPFS", dataIpfs);
+      let dataipfsJson = await dataIpfs.json();
+      console.log("DataIPFSJson", dataipfsJson);
+      let ImageIPFS = dataipfsJson.image;
+      console.log("ImageIPFS", ImageIPFS);
+
+      let imageLink = ` ${link}${ImageIPFS.slice(7)}`;
+      console.log("ImageLink", imageLink);
+      setImage(imageLink);
     } catch (error) {}
-    return image;
   };
 
   useEffect(() => {
-    // getMetaFromURI();
     getNFTDetails();
-  });
+    fetchImage();
+  }, []);
 
   return (
     <div>
       <Card style={{ marginBottom: "20px" }} color="purple">
-        <Image src={fetchImage(`${link}${uri.slice(7)}`)} alt="NFT Jpeg" />
+        <Image src={image} alt="NFT Jpeg" />
 
-        {console.log("iMAGE Link", `${link}${uri.slice(7)}`)}
         <Card.Content>
           <Card.Header>{header}</Card.Header>
           <Card.Meta>
