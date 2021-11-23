@@ -42,7 +42,7 @@ const Header = () => {
   useEffect(() => {
     init();
     initOnChange();
-  }, []);
+  }, [info]);
 
   const truncate = (str) => {
     const len = str.length;

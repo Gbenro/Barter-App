@@ -71,12 +71,12 @@ const ReadNFT = ({ nftAddress, nftToken, barterAddress }) => {
   useEffect(() => {
     getMetaFromURI();
     getNFTDetails();
-  }, []);
+  }, [uri]);
 
   return (
     <div>
       <Card style={{ marginBottom: "20px" }} color="purple">
-        <Image src={fetchImage(`${link}${uri.slice(7)}`)} />
+        <Image src={fetchImage(`${link}${uri.slice(7)}`)} alt="NFT Jpeg" />
 
         {console.log("iMAGE Link", `${link}${uri.slice(7)}`)}
         <Card.Content>
