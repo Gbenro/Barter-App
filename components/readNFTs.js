@@ -24,11 +24,9 @@ const ReadNFT = ({ nftAddress, nftToken, barterAddress }) => {
           setUri(res[2]);
           setHeader(res[0]);
           setMeta(res[1]);
-          console.log("URI", res[2]);
+     
         });
-      console.log("Setting URI", uri);
-      console.log("Header", header);
-      console.log("Meta", meta);
+  
     } catch (error) {
       console.log(error);
     }

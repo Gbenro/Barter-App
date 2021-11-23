@@ -20,29 +20,30 @@ const Header = () => {
         method: "net_version",
       });
       if (networkId == 4) {
-        setInfo({
+        setInfo((prev) => ({
+          ...prev,
           connected: true,
 
           text: accounts[0],
-        });
+        }));
       } else {
-        setInfo({
-          ...initailInfo,
+        setInfo((prev) => ({
+          ...prev,
           text: "Connect Rinkeby Test Network",
-        });
+        }));
       }
     } else {
-      setInfo({
-        ...initailInfo,
+      setInfo((prev) => ({
+        ...prev,
         text: "Please Install metamask",
-      });
+      }));
     }
   };
 
   useEffect(() => {
     init();
     initOnChange();
-  }, [info]);
+  }, [init]);
 
   const truncate = (str) => {
     const len = str.length;
