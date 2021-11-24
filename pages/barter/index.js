@@ -84,7 +84,6 @@ class BarterIndex extends Component {
         }
       }
       this.setState({ loading: false });
-      window.location.reload();
     } catch (error) {
       this.setState({ errorMessage: error.message });
     }
@@ -108,7 +107,6 @@ class BarterIndex extends Component {
       this.setState({ errorMessage: error.message });
     }
     this.setState({ loading: false });
-    window.location.reload();
   };
 
   onApproveBarter = async (event) => {
@@ -164,7 +162,6 @@ class BarterIndex extends Component {
       const amount = instance.methods.amountPaid().call();
       this.setState({ EthDeposited: web3.utils.toWei(amount, "ether") });
       this.setState({ loading: false });
-      window.location.reload();
     } catch (error) {
       this.setState({ errorMessage: error.message });
     }
