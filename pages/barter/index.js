@@ -21,10 +21,13 @@ class BarterIndex extends Component {
     const barter = barterContract(props.query.address);
 
     const summary = await barter.methods.getBarterSummary().call();
-
+    console.log("makerAddress", summary[1]);
+    console.log("takerAddress", summary[2]);
     return {
       btr: barter,
       address: props.query.address,
+      makerAddress: summary[1],
+      takerAddress: summary[2],
       makerNFTArray: summary[3],
       takerNFTArray: summary[4],
       amountPaid: summary[5],
@@ -32,6 +35,9 @@ class BarterIndex extends Component {
   }
 
   state = {
+    nftAddress: "",
+    nftTokenId: "",
+
     makerNftAddress: "",
     takerNftAddress: "",
     EthToDeposit: "",
@@ -44,126 +50,65 @@ class BarterIndex extends Component {
     EthDeposited: "",
   };
 
-  componentDidMount() {
-    this.setState({ EthDeposited: this.props.amountPaid });
-  }
-
-  onSubmitMaker = async (event) => {
+  onDepositNFT = async (event) => {
     event.preventDefault();
-
-    let arry = this.state.makerTokenId.split(",");
-    this.setState({ makerTokenId: "" });
-    console.log("barterIndex MakerDeposit nftAdd:", this.state.makerNftAddress);
-    console.log("BarterIndex nftID:", arry);
+    let arry = this.state.nftTokenId.split(",");
+    this.setState({ nftTokenId: "" });
     this.setState({ loading: true, errorMessage: "" });
-    try {
-      const instance = barterContract(this.props.address);
-
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
-      await instance.methods
-        .makerDepositNFT(this.state.makerNftAddress, arry)
-        .send({
-          from: accounts[0],
-        });
-      this.setState({ loading: false });
-    } catch (error) {
-      this.setState({ errorMessage: error.message });
-    }
-  };
-
-  onSubmitTaker = async (event) => {
-    event.preventDefault();
-
-    this.setState({ loading: true });
-    let arry = this.state.takerTokenId.split(",");
-    this.setState({ takerTokenId: "" });
-
+    const emptyAddress = /^0x0+$/.test(this.props.takerAddress);
+    console.log("empty address", emptyAddress);
+    console.log("taker address", this.props.takerAddress);
+    console.log("maker address", this.props.makerAddress);
     try {
       const instance = new web3.eth.Contract(Barter.abi, this.props.address);
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-
-      await instance.methods
-        .takerDepositNFT(this.state.takerNftAddress, arry)
-        .send({
-          from: accounts[0],
-        });
+      console.log("account", accounts[0]);
+      if (accounts[0].toLowerCase() === this.props.makerAddress.toLowerCase()) {
+        await instance.methods
+          .makerDepositNFT(this.state.nftAddress, arry)
+          .send({
+            from: accounts[0],
+          });
+      } else {
+        if (
+          accounts[0].toLowerCase() == this.props.takerAddress.toLowerCase() ||
+          emptyAddress
+        ) {
+          await instance.methods
+            .takerDepositNFT(this.state.nftAddress, arry)
+            .send({
+              from: accounts[0],
+            });
+        }
+      }
       this.setState({ loading: false });
+      window.location.reload();
     } catch (error) {
       this.setState({ errorMessage: error.message });
     }
-    this.setState({ loading: false });
-  };
-  onSubmitEth = async (event) => {
-    event.preventDefault();
-    this.setState({ loading: true });
-
-    try {
-      const instance = new web3.eth.Contract(Barter.abi, this.props.address);
-
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      await instance.methods.depositETH().send({
-        from: accounts[0],
-        value: web3.utils.toWei(this.state.EthToDeposit, "ether"),
-      });
-      const amount = instance.methods.amountPaid().call();
-      this.setState({ EthDeposited: amount });
-      this.setState({ loading: false });
-    } catch (error) {
-      this.setState({ errorMessage: error.message });
-    }
-    this.setState({ loading: false });
   };
 
-  onApproveMaker = async (event) => {
+  onApproveNFT = async (event) => {
     event.preventDefault();
 
     this.setState({ loading: true });
-    try {
-      const instance = new web3.eth.Contract(
-        ERC721.abi,
-        this.state.makerNftAddress
-      );
 
-      const accounts = await window.ethereum.request({
+    try {
+      const instance = new web3.eth.Contract(ERC721.abi, this.state.nftAddress);
+      const [account] = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
       await instance.methods.setApprovalForAll(this.props.address, true).send({
-        from: accounts[0],
+        from: account,
       });
       this.setState({ loading: false });
     } catch (error) {
       this.setState({ errorMessage: error.message });
     }
     this.setState({ loading: false });
-  };
-  onApproveTaker = async (event) => {
-    event.preventDefault();
-
-    this.setState({ loading: true });
-    try {
-      const instance = new web3.eth.Contract(
-        ERC721.abi,
-        this.state.takerNftAddress
-      );
-
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      await instance.methods.setApprovalForAll(this.props.address, true).send({
-        from: accounts[0],
-      });
-      this.setState({ loading: false });
-    } catch (error) {
-      this.setState({ errorMessage: error.message });
-    }
-    this.setState({ loading: false });
+    window.location.reload();
   };
 
   onApproveBarter = async (event) => {
@@ -172,11 +117,11 @@ class BarterIndex extends Component {
 
     try {
       const instance = new web3.eth.Contract(Barter.abi, this.props.address);
-      const accounts = await window.ethereum.request({
+      const [account] = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
       await instance.methods.approveBarter().send({
-        from: accounts[0],
+        from: account,
         value: web3.utils.toWei("0.01", "ether"),
       });
       this.setState({ loading: false });
@@ -188,14 +133,13 @@ class BarterIndex extends Component {
   onCancelBarter = async (event) => {
     event.preventDefault();
     this.setState({ loading: true });
-
     try {
       const instance = new web3.eth.Contract(Barter.abi, this.props.address);
-      const accounts = await window.ethereum.request({
+      const [account] = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
       await instance.methods.cancelBarter().send({
-        from: accounts[0],
+        from: account,
       });
       this.setState({ loading: false });
     } catch (error) {
@@ -203,17 +147,34 @@ class BarterIndex extends Component {
     }
     this.setState({ loading: false });
   };
+  onSubmitEth = async (event) => {
+    event.preventDefault();
+    this.setState({ loading: true });
+
+    try {
+      const instance = new web3.eth.Contract(Barter.abi, this.props.address);
+
+      const [account] = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      await instance.methods.depositETH().send({
+        from: account,
+        value: web3.utils.toWei(this.state.EthToDeposit, "ether"),
+      });
+      const amount = instance.methods.amountPaid().call();
+      this.setState({ EthDeposited: web3.utils.toWei(amount, "ether") });
+      this.setState({ loading: false });
+      window.location.reload();
+    } catch (error) {
+      this.setState({ errorMessage: error.message });
+    }
+    this.setState({ loading: false });
+  };
 
   handleSelectorValueChange = ({ target: { value } }) => {
-    this.setState({ makerTokenId: value });
+    this.setState({ nftTokenId: value });
   };
-  handleSelectorValueChangeTaker = ({ target: { value } }) => {
-    this.setState({ takerTokenId: value });
-  };
-  displayEthBalance() {
-    const bal = web3.utils.fromWei(this.state.EthDeposited, "ether");
-    return bal;
-  }
+
   render() {
     return (
       <Layout>
@@ -240,28 +201,28 @@ class BarterIndex extends Component {
               </Label>
               <span>{this.props.address}</span>
               <Form
-                onSubmit={this.onSubmitMaker}
-                error={!!this.state.errorMessage}
+                onSubmit={this.onDepositNFT}
+                error={this.state.errorMessage}
               >
                 <Form.Field>
                   <Message
                     error
                     header="Oops"
-                    content={!!this.state.errorMessage}
+                    content={this.state.errorMessage}
                   />
 
                   <Input
-                    label="Maker NFT Address"
+                    label="NFT Address"
                     style={{ marginBottom: "10px" }}
-                    value={this.state.makerNftAddress}
+                    value={this.state.nftAddress}
                     onChange={(event) =>
-                      this.setState({ makerNftAddress: event.target.value })
+                      this.setState({ nftAddress: event.target.value })
                     }
                   />
 
                   <Input
-                    label="Maker Token ID(s)"
-                    value={this.state.makerTokenId}
+                    label="NFT Token ID(s)"
+                    value={this.state.nftTokenId}
                     placeholder="Separate by comma for multiple nfts of the same collection"
                     onChange={this.handleSelectorValueChange}
                   />
@@ -269,49 +230,18 @@ class BarterIndex extends Component {
 
                 <Button
                   color="green"
-                  onClick={this.onApproveMaker}
+                  onClick={this.onApproveNFT}
                   style={{ marginBottom: "10px" }}
                 >
-                  Approve Maker NFT
+                  Approve NFT
                 </Button>
-                <Button color="purple">Deposit Maker NFT</Button>
-              </Form>
-
-              <Form
-                onSubmit={this.onSubmitTaker}
-                error={!!this.state.errorMessage}
-              >
-                <Form.Field>
-                  <Input
-                    label="Taker NFT Address"
-                    style={{ marginBottom: "10px" }}
-                    value={this.state.takerNftAddress}
-                    onChange={(event) =>
-                      this.setState({ takerNftAddress: event.target.value })
-                    }
-                  />
-
-                  <Input
-                    label="Taker Token ID(s)"
-                    value={this.state.takerTokenId}
-                    placeholder="Separate by comma for multiple nfts of the same collection"
-                    onChange={this.handleSelectorValueChangeTaker}
-                  />
-                </Form.Field>
-                <Button
-                  color="green"
-                  onClick={this.onApproveTaker}
-                  style={{ marginBottom: "10px" }}
-                >
-                  Approve Taker NFT
-                </Button>
-                <Button color="purple">Deposit Taker NFT!</Button>
+                <Button color="purple">Deposit NFT</Button>
               </Form>
 
               <Form
                 class=""
                 onSubmit={this.onSubmitEth}
-                error={!!this.state.errorMessage}
+                error={this.state.errorMessage}
               >
                 <Form.Field>
                   <Input
@@ -329,8 +259,8 @@ class BarterIndex extends Component {
                   <Button color="purple">Deposit ETH</Button>
 
                   <Label>
-                    Deposited:{" "}
-                    {this.displayEthBalance() ? this.displayEthBalance() : ""}
+                    Deposited:
+                    {this.state.EthDeposited}
                     eth
                   </Label>
                 </div>
@@ -347,6 +277,7 @@ class BarterIndex extends Component {
               </Button.Group>
             </Grid.Column>
           </Grid.Row>
+
           <Grid.Row columns="2">
             <Grid.Column>
               <Header>Maker NFT(s)</Header>
@@ -368,5 +299,4 @@ class BarterIndex extends Component {
     );
   }
 }
-
 export default BarterIndex;

@@ -16,7 +16,7 @@ const ReadNFT = ({ nftAddress, nftToken, barterAddress }) => {
 
   const getNFTDetails = () => {
     const barter = Barter(BarterAddress);
-    console.log("Barter Loadeding");
+    // console.log("Barter Loadeding");
     try {
       barter.methods
         .getNFTdetails(NftAddress, NftToken)
@@ -25,7 +25,7 @@ const ReadNFT = ({ nftAddress, nftToken, barterAddress }) => {
           setUri(res[2]);
           setHeader(res[0]);
           setMeta(res[1]);
-          console.log("Barter Loaded success w/ URI", uri);
+          // console.log("Barter Loaded success w/ URI", uri);
         });
     } catch (error) {
       console.log(error);
@@ -33,20 +33,20 @@ const ReadNFT = ({ nftAddress, nftToken, barterAddress }) => {
   };
 
   const fetchImage = async () => {
-    console.log("Data", uri);
+    // console.log("Data", uri);
     let jsonData = ` ${link}${uri.slice(7)}`;
-    console.log("Json Data", jsonData);
+    //console.log("Json Data", jsonData);
 
     try {
       let dataIpfs = await fetch(jsonData);
-      console.log("DataIPFS", dataIpfs);
+      // console.log("DataIPFS", dataIpfs);
       let dataipfsJson = await dataIpfs.json();
-      console.log("DataIPFSJson", dataipfsJson);
+      // console.log("DataIPFSJson", dataipfsJson);
       let ImageIPFS = dataipfsJson.image;
-      console.log("ImageIPFS", ImageIPFS);
+      // console.log("ImageIPFS", ImageIPFS);
 
       let imageLink = ` ${link}${ImageIPFS.slice(7)}`;
-      console.log("ImageLink", imageLink);
+      // console.log("ImageLink", imageLink);
       setImage(imageLink);
     } catch (error) {}
   };
