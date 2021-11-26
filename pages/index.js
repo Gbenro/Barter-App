@@ -21,7 +21,7 @@ class BarterIndex extends Component {
           description: (
             <Link
               //route={`/view/${address}`}
-              href="/view/[paddress]"
+              href={`/view/${encodeURIComponent(address)}`}
               as={`/view/${address}`}
             >
               <a>

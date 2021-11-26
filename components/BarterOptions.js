@@ -1,4 +1,5 @@
-import Router from "next/router";
+//import Router from "next/router";
+import { useRouter } from "next/router";
 import React, { Component } from "react";
 import { Button, Message, Form, Input, Grid, Icon } from "semantic-ui-react";
 import factory from "../ethereum/factory";
@@ -24,8 +25,8 @@ class BarterOptions extends Component {
       });
 
       this.setState({ barterAddress: newAddress.events[0].address });
-
-      Router.push(
+      const router = useRouter();
+      router.push(
         `/barter/[p${this.state.barterAddress}]`,
         `/barter/${this.state.barterAddress}`
       );
@@ -36,8 +37,9 @@ class BarterOptions extends Component {
   };
   onClickLoad = async (event) => {
     event.preventDefault();
+    const router = useRouter();
     try {
-      Router.push(
+      router.push(
         `/barter/[p${this.state.barterAddress}]`,
         `/barter/${this.state.barterAddress}`
       );
