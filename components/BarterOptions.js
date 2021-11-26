@@ -25,7 +25,10 @@ class BarterOptions extends Component {
 
       this.setState({ barterAddress: newAddress.events[0].address });
 
-      Router.pushRoute(`/barter/${this.state.barterAddress}`);
+      Router.pushRoute(
+        "/barter/[pthis.state.barterAddress]",
+        `/barter/${this.state.barterAddress}`
+      );
     } catch (error) {
       this.setState({ errorMessage: error.message });
     }
@@ -34,7 +37,10 @@ class BarterOptions extends Component {
   onClickLoad = async (event) => {
     event.preventDefault();
     try {
-      Router.pushRoute(`/barter/${this.state.barterAddress}`);
+      Router.pushRoute(
+        "/barter/[pthis.state.barterAddress]",
+        `/barter/${this.state.barterAddress}`
+      );
     } catch (error) {
       this.setState({ errorMessage: error.message });
     }

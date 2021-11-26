@@ -12,12 +12,12 @@ const HowTo = () => {
           To Start, click on <b>Start barter</b> on the homepage. This will start a new
           barter contract for you. MetaMask will open up and ask you to confirm
           the transaction. Once the transaction is mined, you will be directed
-          the barter page. You should copy the barter Address for your barter
+          the barter page. You should copy the barter Address and send to your barter
           counterpart.
         </p>
 
         <p>
-          The <b>Maker</b> is the one that started the barter contract. While
+          The <b>Maker</b> is the one that Intiated the barter contract. While
           the <b>Taker </b>
           the counterpart joining the Barter Trade.
         </p>
@@ -48,7 +48,7 @@ const HowTo = () => {
         <h3> Approving Barter</h3>
         <p>
           Once both the Maker and Taker have deposited their NFT(s). The NFTs
-          image, name ,token Id and symbol will be displayed for you to see. You
+          image, name, token Id and symbol will be displayed for you to see. You
           can view the NFT address on etherscan
           <br />
           <b>
