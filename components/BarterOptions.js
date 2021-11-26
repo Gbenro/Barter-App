@@ -25,8 +25,8 @@ class BarterOptions extends Component {
 
       this.setState({ barterAddress: newAddress.events[0].address });
 
-      Router.pushRoute(
-        "/barter/[pthis.state.barterAddress]",
+      Router.push(
+        `/barter/[p${this.state.barterAddress}]`,
         `/barter/${this.state.barterAddress}`
       );
     } catch (error) {
@@ -37,8 +37,8 @@ class BarterOptions extends Component {
   onClickLoad = async (event) => {
     event.preventDefault();
     try {
-      Router.pushRoute(
-        "/barter/[pthis.state.barterAddress]",
+      Router.push(
+        `/barter/[p${this.state.barterAddress}]`,
         `/barter/${this.state.barterAddress}`
       );
     } catch (error) {
