@@ -19,7 +19,11 @@ class BarterIndex extends Component {
         return {
           header: address,
           description: (
-            <Link route={`/view/${address}`} as={`/view/${address}`}>
+            <Link
+              route={`/view/${address}`}
+              href="/view/[paddress]"
+              as={`/view/${address}`}
+            >
               <a>
                 <Button animated color="purple">
                   <Button.Content visible color="purple">
