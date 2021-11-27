@@ -19,22 +19,30 @@ class BarterIndex extends Component {
         return {
           header: address,
           description: (
-            <Link
-              route={`/view/${address}`}
-              // href={`/view/${address}`}
-              // as={`/view/${address}`}
-            >
-              <a>
-                <Button animated color="purple">
-                  <Button.Content visible color="purple">
-                    View Barter
-                  </Button.Content>
-                  <Button.Content hidden>
-                    <Icon name="handshake" />
-                  </Button.Content>
-                </Button>
-              </a>
-            </Link>
+            <>
+              <Link
+                route={`/view/${address}`}
+                // href={`/view/${address}`}
+                // as={`/view/${address}`}
+              >
+                <a>
+                  <Button animated color="purple">
+                    <Button.Content visible color="purple">
+                      View Barter
+                    </Button.Content>
+                    <Button.Content hidden>
+                      <Icon name="handshake" />
+                    </Button.Content>
+                  </Button>
+                </a>
+              </Link>
+
+              <Link route={`/barter/${address}`}>
+                <a>
+                  <Button color="purple">Load Barter</Button>
+                </a>
+              </Link>
+            </>
           ),
           fluid: true,
           color: "purple",

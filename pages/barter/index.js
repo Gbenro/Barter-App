@@ -124,7 +124,7 @@ class BarterIndex extends Component {
     } catch (error) {
       this.setState({ errorMessage: error.message });
     }
-    this.forceUpdate();
+    this.setState(this.state);
   };
 
   onApproveNFT = async (event) => {
@@ -145,7 +145,7 @@ class BarterIndex extends Component {
       this.setState({ errorMessage: error.message });
     }
     this.setState({ loading: false });
-    this.forceUpdate();
+    this.setState(this.state);
   };
 
   onApproveBarter = async (event) => {
@@ -166,7 +166,7 @@ class BarterIndex extends Component {
       console.log(error);
     }
     this.setState({ loading: false });
-    this.forceUpdate();
+    this.setState(this.state);
   };
   onCancelBarter = async (event) => {
     event.preventDefault();
@@ -184,7 +184,7 @@ class BarterIndex extends Component {
       console.log(error);
     }
     this.setState({ loading: false });
-    this.forceUpdate();
+    this.setState(this.state);
   };
   onSubmitEth = async (event) => {
     event.preventDefault();
@@ -207,7 +207,7 @@ class BarterIndex extends Component {
       this.setState({ errorMessage: error.message });
     }
     this.setState({ loading: false });
-    this.forceUpdate();
+    this.setState(this.state);
   };
 
   handleSelectorValueChange = ({ target: { value } }) => {
