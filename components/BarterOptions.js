@@ -24,7 +24,7 @@ class BarterOptions extends Component {
       });
 
       this.setState({ barterAddress: newAddress.events[0].address });
-
+      //router
       Router.pushRoute(`/barter/${this.state.barterAddress}`);
     } catch (error) {
       this.setState({ errorMessage: error.message });
