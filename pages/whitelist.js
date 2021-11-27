@@ -43,14 +43,15 @@ const WhiteList = () => {
       )}
       <Form onSubmit={onWhitelist} error={errorMessage}>
         <Form.Field>
-          <Button color="purple">Whitelist</Button>
-
           <Input
             value={inputVal}
             onChange={(e) => setInputVal(e.target.value)}
             placeholder="Enter address for Whitelisting"
             style={{ marginBottom: "10px", marginTop: "10px" }}
           />
+
+          <Button color="purple">Whitelist</Button>
+
           {/* <Label>whitelisted:{whitelisted}</Label> */}
         </Form.Field>
       </Form>
