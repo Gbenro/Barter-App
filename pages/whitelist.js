@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Form, Input, Label, Message, Icon } from "semantic-ui-react";
 import Meerkat from "../ethereum/Meerkat";
 import Layout from "../components/Layout";
-const whiteList = () => {
+const WhiteList = () => {
   const [inputVal, setInputVal] = useState("");
   const [whitelisted, setWhitelisted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -57,4 +57,4 @@ const whiteList = () => {
     </Layout>
   );
 };
-export default whiteList;
+export default WhiteList;
