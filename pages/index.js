@@ -22,8 +22,8 @@ class BarterIndex extends Component {
             <>
               <Link
                 route={`/view/${address}`}
-                // href={`/view/${address}`}
-                // as={`/view/${address}`}
+                href={`/view/post?postslug=${address}`}
+                as={`/view/${address}`}
               >
                 <a>
                   <Button animated color="purple">
@@ -37,7 +37,11 @@ class BarterIndex extends Component {
                 </a>
               </Link>
 
-              <Link route={`/barter/${address}`}>
+              <Link
+                route={`/barter/${address}`}
+                href={`/barter/post?postslug=${address}`}
+                as={`/barter/${address}`}
+              >
                 <a>
                   <Button color="purple">Load Barter</Button>
                 </a>

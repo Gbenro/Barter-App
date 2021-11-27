@@ -58,12 +58,15 @@ class BarterIndex extends Component {
   componentDidMount() {
     this.getBarterState();
   }
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps.barterState !== this.props.barterState) {
-  //     this.getBarterState();
-  //     console.log("I just rerender due to update")
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.makerNFTArray !== this.props.makerNFTArray ||
+      prevProps.takerNFTArray !== this.props.takerNFTArray
+    ) {
+      this.getBarterState();
+      console.log("I just rerender due to update");
+    }
+  }
   getBarterState = () => {
     let Binfo = this.props.barterState;
     if (Binfo == 0) {
