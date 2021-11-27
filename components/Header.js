@@ -72,7 +72,7 @@ const Header = () => {
       </Link>
       <Link route="/">
         <a
-          href="https://youthful-pike-dfc3f5.netlify.app/"
+          href="https://test-meerkat-minter.vercel.app/"
           className="item"
           target="_blank"
           rel="noreferrer noopener"

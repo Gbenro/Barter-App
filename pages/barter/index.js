@@ -15,16 +15,21 @@ import Barter from "../../ethereum/contracts/Barter.json";
 import ERC721 from "../../ethereum/contracts/ERC721.json";
 import barterContract from "../../ethereum/Barter";
 import DisplayNFTs from "../../components/displayNFTs";
+//import BarterState from "../../components/BarterState";
 
 class BarterIndex extends Component {
   static async getInitialProps(props) {
     //console.log("Barter Address", props.query.address);
     const barter = await barterContract(props.query.address);
+    const barterState = await barter.methods.projectState().call();
 
     const summary = await barter.methods.getBarterSummary().call();
     console.log("makerAddress", summary[1]);
     console.log("takerAddress", summary[2]);
+    console.log("barterIndex Barter State", barterState);
+
     return {
+      barterState: barterState,
       btr: barter,
       address: props.query.address,
       makerAddress: summary[1],
@@ -42,13 +47,44 @@ class BarterIndex extends Component {
     makerNftAddress: "",
     takerNftAddress: "",
     EthToDeposit: "",
-
+    bState: "",
     makerTokenId: "",
     takerTokenId: "",
 
     errorMessage: "",
     loading: false,
     EthDeposited: "",
+  };
+  componentDidMount() {
+    this.getBarterState();
+  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps.barterState !== this.props.barterState) {
+  //     this.getBarterState();
+  //     console.log("I just rerender due to update")
+  //   }
+  // }
+  getBarterState = () => {
+    let Binfo = this.props.barterState;
+    if (Binfo == 0) {
+      this.setState({ bState: "Barter Initiated" });
+    } else if (Binfo == 1) {
+      this.setState({ bState: "Maker Deposited NFT" });
+    } else if (Binfo == 2) {
+      this.setState({ bState: "Taker Deposited NFT" });
+    } else if (Binfo == 3) {
+      this.setState({ bState: "Maker Cancelled Barter" });
+    } else if (Binfo == 4) {
+      this.setState({ bState: "Taker Cancelled Barter" });
+    } else if (Binfo == 5) {
+      this.setState({ bState: "Maker approved Barter" });
+    } else if (Binfo == 6) {
+      this.setState({ bState: "Taker approved Barter" });
+    } else if (Binfo == 7) {
+      this.setState({ bState: " Barter Completed" });
+    }
+
+    return this.state.bState;
   };
 
   onDepositNFT = async (event) => {
@@ -88,6 +124,7 @@ class BarterIndex extends Component {
     } catch (error) {
       this.setState({ errorMessage: error.message });
     }
+    this.forceUpdate();
   };
 
   onApproveNFT = async (event) => {
@@ -108,6 +145,7 @@ class BarterIndex extends Component {
       this.setState({ errorMessage: error.message });
     }
     this.setState({ loading: false });
+    this.forceUpdate();
   };
 
   onApproveBarter = async (event) => {
@@ -128,6 +166,7 @@ class BarterIndex extends Component {
       console.log(error);
     }
     this.setState({ loading: false });
+    this.forceUpdate();
   };
   onCancelBarter = async (event) => {
     event.preventDefault();
@@ -145,6 +184,7 @@ class BarterIndex extends Component {
       console.log(error);
     }
     this.setState({ loading: false });
+    this.forceUpdate();
   };
   onSubmitEth = async (event) => {
     event.preventDefault();
@@ -167,6 +207,7 @@ class BarterIndex extends Component {
       this.setState({ errorMessage: error.message });
     }
     this.setState({ loading: false });
+    this.forceUpdate();
   };
 
   handleSelectorValueChange = ({ target: { value } }) => {
@@ -273,6 +314,8 @@ class BarterIndex extends Component {
                   Cancel Barter
                 </Button>
               </Button.Group>
+
+              <Label>Barter State: {this.state.bState}</Label>
             </Grid.Column>
           </Grid.Row>
 

@@ -289,6 +289,19 @@
     },
     {
       "inputs": [],
+      "name": "checkBarterState",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "depositETH",
       "outputs": [],
       "stateMutability": "payable",
