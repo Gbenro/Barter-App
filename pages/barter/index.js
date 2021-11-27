@@ -18,7 +18,8 @@ import DisplayNFTs from "../../components/displayNFTs";
 
 class BarterIndex extends Component {
   static async getInitialProps(props) {
-    const barter = barterContract(props.query.address);
+    //console.log("Barter Address", props.query.address);
+    const barter = await barterContract(props.query.address);
 
     const summary = await barter.methods.getBarterSummary().call();
     console.log("makerAddress", summary[1]);
