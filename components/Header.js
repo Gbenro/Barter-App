@@ -81,6 +81,10 @@ const Header = () => {
         </a>
       </Link>
 
+      <Link route="/whitelist">
+        <a className="item">WhiteList</a>
+      </Link>
+
       <Menu.Menu position="right">
         <Menu.Item>
           <Button color="purple" onClick={init}>
