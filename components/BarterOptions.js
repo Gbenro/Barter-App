@@ -6,7 +6,6 @@ import { Link } from "../routes";
 
 class BarterOptions extends Component {
   state = {
-    nftAddress: "",
     errorMessage: "",
     barterAddress: "",
     loading: false,
