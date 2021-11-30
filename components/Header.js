@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Menu } from "semantic-ui-react";
 import { Link } from "../routes";
 
@@ -63,7 +63,7 @@ const Header = () => {
   };
 
   return (
-    <Menu style={{ marginTop: "10px" }}>
+    <Menu style={{ marginTop: "10px" }} stackable>
       <Link route="/">
         <a className="item">Home</a>
       </Link>
